@@ -47,9 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void showData(View view) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor query = db.query(DBHelper.TABLE_USERS, null, null, null, null, null, null);
-        usersAdapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item, query,
-                new String[]{DBHelper.KEY_NAME, DBHelper.KEY_AGE}, new int[] {android.R.id.text1, android.R.id.text2}, 0);
+        Cursor query = db.query(DBHelper.TABLE_USERS,
+                null,
+                DBHelper.KEY_NAME + " like ?",
+                new String[]{"%max%"},
+                null,
+                null,
+                null);
+        // usersAdapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item, query,
+        //        new String[]{DBHelper.KEY_NAME, DBHelper.KEY_AGE}, new int[] {android.R.id.text1, android.R.id.text2}, 0);
+        usersAdapter = new SimpleCursorAdapter(this, R.layout.user_item, query,
+                new String[]{DBHelper.KEY_ID, DBHelper.KEY_NAME, DBHelper.KEY_AGE}, new int[] {R.id.user_id, R.id.user_name, R.id.user_age}, 0);
         usersList.setAdapter(usersAdapter);
     }
 
